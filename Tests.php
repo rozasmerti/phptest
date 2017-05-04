@@ -14,7 +14,7 @@ $vaz = $tree->appendNode(new Node('VAZ'), $root);
 $xray = $tree->appendNode(new Node('XRay'), $vaz);
 $kalina = $tree->appendNode(new Node('Kalina'), $vaz);
 
-assert($tree->toJSON() === '{
+$string = '{
 	root : {
 		name : "автомобили",
 		childs : [
@@ -46,7 +46,8 @@ assert($tree->toJSON() === '{
 			}
 		]
 	}
-}');
+}';
+assert($tree->toJSON() === preg_replace("/\s+/", "", $string));
 
 $tree->deleteNode($vaz);
 $tree->deleteNode($focus);
@@ -69,7 +70,7 @@ assert(isset($error));
 assert($tree->getRoot()->getChildren()[0]->getChildren()[0]->getName() === "Mustang");
 assert($ford->getParent()->getName() === "автомобили");
 
-assert($tree->toJSON() === '{
+$string = '{
 	root : {
 		name : "автомобили",
 		childs : [
@@ -84,5 +85,6 @@ assert($tree->toJSON() === '{
 			}
 		]
 	}
-}');
+}';   
+assert($tree->toJSON() === preg_replace("/\s+/", "", $string));
 ?>
