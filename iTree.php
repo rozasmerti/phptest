@@ -1,4 +1,5 @@
 <?php
+
 interface iTree {
 	/*
 		@return Node корневой лист дерева, NULL, если нет

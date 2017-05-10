@@ -1,12 +1,17 @@
 <?php
 
 $root = new Node("машины");
-$tree = new Tree($root);
+$tree = new Tree($root); 
 $root->setName("автомобили");
+
+
 
 assert($tree->getRoot()->getName() === "автомобили");
 
 $ford = $tree->appendNode(new Node('Ford'), $root);
+
+
+
 $mustang = $tree->appendNode(new Node("Mustang"), $ford);
 $focus = $tree->appendNode(new Node("Focus"), $ford);
 
