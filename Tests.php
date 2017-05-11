@@ -16,8 +16,13 @@ $mustang = $tree->appendNode(new Node("Mustang"), $ford);
 $focus = $tree->appendNode(new Node("Focus"), $ford);
 
 $vaz = $tree->appendNode(new Node('VAZ'), $root);
+
 $xray = $tree->appendNode(new Node('XRay'), $vaz);
+
 $kalina = $tree->appendNode(new Node('Kalina'), $vaz);
+
+
+
 
 $string = '{
 	root : {
@@ -54,7 +59,18 @@ $string = '{
 }';
 assert($tree->toJSON() === preg_replace("/\s+/", "", $string));
 
+echo '<pre>';
+print_r($root);
+
+echo '</pre>';
+
 $tree->deleteNode($vaz);
+
+echo '<pre>';
+print_r($root);
+
+echo '</pre>';
+
 $tree->deleteNode($focus);
 $error;
 try{

@@ -40,7 +40,18 @@ class Tree implements iTree
 
     function getNode(string $nodeName): iNode
     {
-        
+        $node = null;
+        if ($this->root->getName() == $nodeName)
+            $node = $this->root;
+        else {
+            $children = $this->root->getChildren();
+            foreach ($children as $child) {
+                $root = new Tree($child);
+                $node=$root->getNode($nodeName);
+                if ($node!=null) break;
+            }
+        }
+        return $node;
     }
 
     /*
@@ -56,22 +67,20 @@ class Tree implements iTree
 
 
         try {
+           // echo 'sdf: '.$parent->getName().'<br>';
+           // $this->getNode($parent->getName())->addChild($node);
             if ($this->root->getName() === $parent->getName())
                 $this->root->addChild($node);
             else {
-
                 $children = $this->root->getChildren();
                 foreach ($children as $child) {
-
-                    if ($child->getName() == $parent->getName()) {
-                        $child->addChild($node);
-                        break;
-                    }
+                    $root = new Tree($child);
+                    $root->appendNode($node, $parent);
                 }
             }
             return $node;
         } catch (ParentNotFoundException $e) {
-            $error = $e;
+            return $error = $e;
         }
     }
 
@@ -83,7 +92,22 @@ class Tree implements iTree
 
     function deleteNode(iNode $node)
     {
-        
+       try {
+            if ($this->root->getName() == $node->getName())
+                $this->root=null;
+            else {
+
+                $children = $this->root->getChildren();
+                foreach ($children as $child) {
+$root = new Tree($child);
+                    $root->deleteNode($node);
+                    
+                }
+            }
+            return $this;
+        } catch (NodeNotFoundException $e) {
+            return $error = $e;
+        } 
     }
 
     /*
@@ -107,6 +131,20 @@ class Tree implements iTree
     function toJSON(): string
     {
         
+        $children=array();
+        foreach ($this->root->getChildren() as $child)
+        {
+            $root=new Tree($child);
+            $children[]=$root->toJson();
+        }
+         
+        
+        $rootArray=array('root'=>array(
+            'name'=>$this->root->getName(),
+            'childs'=>$children
+        ));
+        
+        return json_encode($rootArray);
     }
 
 }
